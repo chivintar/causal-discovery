@@ -13,26 +13,29 @@ causal-discovery/
 ├── .gitignore
 ├── requirements.txt
 │
-├── notebooks/              # experiments
+├── notebooks/              
 │   └── main.ipynb
 │   
 │
-├── src/                    # own scripts
-│   └── example.py
-│   └── ex.py
-│   └── e.py
+├── src/                    
+│   └── todo.py
+│  
 │
 ├── external/               
 │   ├── causal_comp/        # From ddocquier/Causal_Comp
 │   │   └── model_2var.py         
 │   │   └── model_6var.py         
-│   │   └── function_liang_nvar.py         
-│   └── tigramite/          # From jakobrunge/tigramite
-│       └── p
+│   │   └── function_liang_nvar.py
+│   │            
+│   └── tigramite/     
+│       └── 
 │
-├── data/                   # Synthetic or real datasets (small or symbolic)
-│   └── 
+├── data/                   # Synthetic datasets
+│   └── 2D_series.npy
+│   └── 6D_series.npy
 │
-└── results/                # Outputs: plots, p-values, causal graphs
+└── results/               
     └── plots/
-    └── csv/
+    └── npy/
+	   └── 2D_liang.npy
+	   └── 6D_liang.npy
