@@ -1,8 +1,8 @@
 # causal-discovery
 
-This project investigates and compares different causal inference methods for multivariate time series, including:
-- PCMCI (from Tigramite)
-- Liang-Kleeman Information Flow Rate (LIFR, from Causal_Comp)
+This project investigates and compares two causal inference methods for multivariate time series:
+- PCMCI 
+- Liang-Kleeman Information Flow Rate 
 
 ## Folder Structure
 
@@ -22,7 +22,7 @@ causal-discovery/
 │  
 │
 ├── external/               
-│   ├── causal_comp/        # From ddocquier/Causal_Comp
+│   ├── causal_comp/  # From ddocquier/Causal_Comp
 │   │   └── model_2var.py         
 │   │   └── model_6var.py         
 │   │   └── function_liang_nvar.py
@@ -30,7 +30,7 @@ causal-discovery/
 │   └── tigramite/     
 │       └── 
 │
-├── data/                   # Synthetic datasets
+├── data/             # Synthetic datasets
 │   └── 2D_series.npy
 │   └── 6D_series.npy
 │
