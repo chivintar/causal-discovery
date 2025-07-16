@@ -35,40 +35,21 @@ import numpy as np
 #@jit(nopython=True) # accelerator
 def compute_sig(var,error,conf):
 	'''
-	Function to compute statistically significant values.
+	Function to compute statistically significant values
 	'''
-    if (var-conf*error < 0. and var+conf*error < 0.) or (var-conf*error > 0. and var+conf*error > 0.):
-        sig = 1
-    else:
-        sig = 0
-    return sig
-
+	if (var-conf*error < 0. and var+conf*error < 0.) or (var-conf*error > 0. and var+conf*error > 0.):
+		sig = 1
+	else:
+		sig = 0
+	return sig
 
 def compute_liang_nvar(x, dt, n_iter):
-	'''
-	Function to compute the LIFR. Takes as input the ndarray x,
-	where the number of rows is the number of variables and 
-	the number of columns is the number of observations (length of series).
-	dt : the step
-	n_iter : number of bootstrap realizations
-	Returns: tuple of 
-	Information Flow T, normalized IF tau, Pearson correlation R,
-	error of T, error of tau, error of Pearson corr (R)
-	'''
-	
+     
     def compute_liang_index(detC, Deltajk, Ckdi, Cij, Cii):
-		'''
-		Function to compute absolute transfer of information from xj to xi (T)
-		T is the absolute rate of information flowing from xj to xi (nats per unit time) (equation (14))
-		'''
-        T = (1. / detC) * np.sum(Deltajk * Ckdi) * (Cij / Cii) 
+        T = (1. / detC) * np.sum(Deltajk * Ckdi) * (Cij / Cii)
         return T
     
-
     def compute_liang_index_norm(detC,Deltaik,Ckdi,T_all,Tii,gii,Cii,Tji):
-		'''
-		Function to compute relative transfer of information from xj to xi (tau)
-		'''
         selfcontrib = (1. / detC) * np.sum(Deltaik * Ckdi) # self-contribution (equation (15))
         transfer = np.sum(np.abs(T_all)) - np.abs(Tii) # all other transfers contribution (equation (20))
         noise = 0.5 * gii / Cii # noise contribution
@@ -182,4 +163,4 @@ def compute_liang_nvar(x, dt, n_iter):
     error_R = np.nanstd(boot_R,axis=0)
     
     # Return result of function
-    return T,tau,R,error_T,error_tau,error_R
+    return T, tau, R, error_T, error_tau, error_R
