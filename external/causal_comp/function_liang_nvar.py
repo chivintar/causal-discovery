@@ -43,7 +43,7 @@ def compute_sig(var,error,conf):
 		sig = 0
 	return sig
 
-def compute_liang_nvar(x, dt, n_iter):
+def compute_liang_nvar(x, dt, n_iter, return_boots=False):
      
     def compute_liang_index(detC, Deltajk, Ckdi, Cij, Cii):
         T = (1. / detC) * np.sum(Deltajk * Ckdi) * (Cij / Cii)
@@ -86,10 +86,10 @@ def compute_liang_nvar(x, dt, n_iter):
             T[j,i] = compute_liang_index(detC,Delta[j,:],dC[:,i],C[i,j],C[i,i]) # compute T (transfer of information from xj to xi) and create matrix
             R[j,i] = C[i,j] / np.sqrt(C[i,i] * C[j,j]) # compute correlation coefficient and create correlation matrix
     
-    # Compute noise terms
+    # compute noise terms
     g = np.zeros(nvar)
     for i in np.arange(nvar):
-        a1k = np.dot(np.linalg.inv(C),dC[:,i]) # compute a1k coefficients based on matrix-vector product (see beginning of page 4 in Liang (2014))
+        a1k = np.dot(np.linalg.inv(C),dC[:,i]) # compute a1k coefficients based on matrix-vector product (Liang 14 eqns 9, 10..)
         f1 = np.nanmean(dx[i,:])
         for k in np.arange(nvar):
             f1 = f1 - a1k[k] * np.nanmean(x[k,:])
@@ -97,7 +97,7 @@ def compute_liang_nvar(x, dt, n_iter):
         for k in np.arange(nvar):
             R1 = R1 - a1k[k] * x[k,:]
         Q1 = np.sum(R1**2.)       
-        g[i] = Q1 * dt / N # equation (10)
+        g[i] = Q1 * dt / N 
     
     # Compute relative transfer of information (tau)
     tau = np.zeros((nvar,nvar))
@@ -161,6 +161,9 @@ def compute_liang_nvar(x, dt, n_iter):
     error_T = np.nanstd(boot_T,axis=0)
     error_tau = np.nanstd(boot_tau,axis=0)
     error_R = np.nanstd(boot_R,axis=0)
+
+    if return_boots:
+        return T, tau, R, error_T, error_tau, error_R, boot_T, boot_tau, boot_R 
     
     # Return result of function
     return T, tau, R, error_T, error_tau, error_R
